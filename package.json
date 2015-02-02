@@ -11,8 +11,6 @@
     "url": "https://github.com/emmanuelgautier/nodejs-pong-poc.git"
   },
   "keywords": [
-    "nodejs",
-    "express",
     "websocket",
     "pong"
   ],
