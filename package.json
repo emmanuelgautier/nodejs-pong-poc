@@ -1,0 +1,28 @@
+{
+  "name": "PongPOC",
+  "version": "1.0.0",
+  "description": "Pong NodeJS POC",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emmanuelgautier/nodejs-pong-poc.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "websocket",
+    "pong"
+  ],
+  "author": "Emmanuel Gautier <emmanuel.gautier@supinfo.com>",
+  "contributors": [
+    "Julien Bouedron <julien.bouedron@supinfo.com>"
+  ],
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/emmanuelgautier/nodejs-pong-poc/issues"
+  },
+  "homepage": "https://github.com/emmanuelgautier/nodejs-pong-poc"
+}
