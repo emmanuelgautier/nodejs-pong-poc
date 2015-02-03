@@ -2,18 +2,28 @@
 
 var http        = require('http'),
     path        = require('path'),
-    connect     = require('connect'),
-
     rootPath    = path.normalize(__dirname),
+
+    connect     = require('connect'),
+    socket      = require('socket.io'),
 
     compression = require('compression'),
     bodyParser  = require('body-parser'),
     serveStatic = require('serve-static'),
 
-    app = connect();
+    connect     = connect();
 
-app.use(compression());
-app.use(bodyParser.urlencoded());
-app.use(serveStatic(rootPath + '/public', {'index': ['index.html', 'index.htm']}));
+connect.use(compression());
+connect.use(bodyParser.urlencoded());
+connect.use(serveStatic(rootPath + '/public', {'index': ['index.html', 'index.htm']}));
 
-http.createServer(app).listen(80);
+var app = http.createServer(connect),
+    io  = socket(app);
+
+io.on('connection', function(socket) {
+  console.log('connected');
+});
+
+app.listen(80, function() {
+  console.log('Application is listening on port 80');
+});
