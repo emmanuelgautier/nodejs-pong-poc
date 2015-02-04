@@ -20,8 +20,23 @@ connect.use(serveStatic(rootPath + '/public', {'index': ['index.html', 'index.ht
 var app = http.createServer(connect),
     io  = socket(app);
 
+var users = [];
 io.on('connection', function(socket) {
-  console.log('connected');
+  users.push(socket);
+
+  socket.join('room');
+
+  if(users.length == 2) {
+    io.sockets.in('room').emit('start');
+  }
+
+  socket.on('paddle moved', function(positions) {
+    socket.in('room').emit('paddle moved', positions);
+  });
+
+  socket.on('win', function() {
+    socket.in('room').emit('win');
+  });
 });
 
 app.listen(80, function() {
