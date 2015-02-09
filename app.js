@@ -18,7 +18,9 @@ connect.use(bodyParser.urlencoded());
 connect.use(serveStatic(rootPath + '/public', {'index': ['index.html', 'index.htm']}));
 
 var app = http.createServer(connect),
-    io  = socket(app);
+    io  = socket(app),
+
+    config = require('./app/config');
 
 var users = [];
 io.on('connection', function(socket) {
@@ -29,6 +31,10 @@ io.on('connection', function(socket) {
   if(users.length == 2) {
     io.sockets.in('room').emit('start');
   }
+
+  socket.on('preload', function() {
+    socket.emit('config', config);
+  });
 
   socket.on('paddle moved', function(positions) {
     socket.in('room').emit('paddle moved', positions);
