@@ -20,29 +20,25 @@ connect.use(serveStatic(rootPath + '/public', {'index': ['index.html', 'index.ht
 var app = http.createServer(connect),
     io  = socket(app),
 
-    config = require('./app/config');
+    config = require('./app/config'),
 
-var users = [];
+    Game = require('./app/game');
+
+var users = [], game;
 io.on('connection', function(socket) {
   users.push(socket);
 
   socket.join('room');
 
   if(users.length == 2) {
-    io.sockets.in('room').emit('start');
+    game = new Game(config, io.sockets.in('room'));
   }
 
   socket.on('preload', function() {
     socket.emit('config', config);
   });
 
-  socket.on('paddle moved', function(positions) {
-    socket.in('room').emit('paddle moved', positions);
-  });
 
-  socket.on('win', function() {
-    socket.in('room').emit('win');
-  });
 });
 
 app.listen(80, function() {

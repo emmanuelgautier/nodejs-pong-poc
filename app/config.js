@@ -50,7 +50,7 @@ module.exports = {
     },
 
     ball: {
-      radius: 0,
+      radius: 1,
       position: {
         x: 392.5,
         y: 292.5
