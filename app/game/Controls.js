@@ -15,7 +15,7 @@ function Controls(Paddle, velocity) {
  * Move paddle to specify position
  *
  * @param {Number} x
- * @api protected
+ * @api public
  */
 Controls.prototype.move = function(x) {
   this._paddle.position[0] = x;
@@ -24,7 +24,7 @@ Controls.prototype.move = function(x) {
 /**
  * Move paddle up
  *
- * @api protected
+ * @api public
  */
 Controls.prototype.up = function() {
 
@@ -33,7 +33,7 @@ Controls.prototype.up = function() {
 /**
  * Move paddle down
  *
- * @api protected
+ * @api public
  */
 Controls.prototype.down = function() {
 

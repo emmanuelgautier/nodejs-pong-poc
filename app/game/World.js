@@ -18,7 +18,7 @@ function World(config, p2) {
 /**
  * Construct game world.
  *
- * @api protected
+ * @api public
  */
 World.prototype.create = function() {
 

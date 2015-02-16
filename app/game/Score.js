@@ -21,7 +21,7 @@ function Score(players) {
  *
  * @param {Number} player
  * @return {Number}
- * @api protected
+ * @api public
  */
 Score.prototype.increment = function(player) {
   this._score[player] += 1;
@@ -32,7 +32,7 @@ Score.prototype.increment = function(player) {
 /**
  * Reset players score. All players point set to zero.
  *
- * @api protected
+ * @api public
  */
 Score.prototype.reset = function() {
   var players = this._score.keys();
@@ -47,7 +47,7 @@ Score.prototype.reset = function() {
  *
  * @param {Number} player
  * @return {Number}
- * @api protected
+ * @api public
  */
 Score.prototype.get = function(player) {
   if(player === null || !this._score[player]) {

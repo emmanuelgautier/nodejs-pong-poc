@@ -18,7 +18,7 @@ function Player(id, Controls) {
 
 /**
  *
- * @api protected
+ * @api public
  */
 Player.prototype.win = function() {
   this.Score.increment(this._id);
@@ -26,7 +26,7 @@ Player.prototype.win = function() {
 
 /**
  *
- * @api protected
+ * @api public
  */
 Player.prototype.loose = function() {
 
@@ -34,7 +34,7 @@ Player.prototype.loose = function() {
 
 /*
  *
- * @api protected
+ * @api public
  */
 Player.prototype.Controls = null;
 
