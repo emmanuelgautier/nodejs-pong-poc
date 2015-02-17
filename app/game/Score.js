@@ -10,8 +10,9 @@
 function Score(players) {
   var score = {};
 
-  score[players[0]] = 0;
-  score[players[1]] = 0;
+  for(var player in players) {
+    score[player] = 0;
+  }
 
   this._score = score;
 }

@@ -24,21 +24,11 @@ var app = http.createServer(connect),
 
     Game = require('./app/game');
 
-var users = [], game;
+var game = new Game(config, 'room');
+
 io.on('connection', function(socket) {
-  users.push(socket);
 
-  socket.join('room');
-
-  if(users.length == 2) {
-    game = new Game(config, io.sockets.in('room'));
-  }
-
-  socket.on('preload', function() {
-    socket.emit('config', config);
-  });
-
-
+  game.socketsHandler(socket);
 });
 
 app.listen(80, function() {
