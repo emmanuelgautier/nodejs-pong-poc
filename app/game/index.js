@@ -58,11 +58,13 @@ Game.prototype._eventsListenersHandler = function() {
   fs.readdirSync(__dirname + '/events').forEach(function(filename) {
     if (/\.js$/.test(filename)) {
       var name = path.basename(filename, '.js'),
-          load = function () { return require('./events/' + name); };
+          eventListener = function () { return require('./events/' + name); }();
 
-      that.eventEmitter.on(name.toLowerCase(), function() { eventListener.apply(that, this.arguments); });
+      that.eventEmitter.on(name, function() { eventListener.apply(that, arguments); });
     }
   });
+
+
 };
 
 /**
