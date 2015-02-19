@@ -29,6 +29,8 @@ function Game(config, room) {
     this._config = config;
     this._room = room;
 
+    this._host = null;
+
     this._eventsListenersHandler();
 }
 
@@ -75,7 +77,8 @@ Game.prototype._eventsListenersHandler = function() {
  */
 Game.prototype.socketsHandler = function(socket) {
 
-  if(this.users.length >= 2) {
+  //only two players in the game
+  if(Object.keys(this.users).length >= 2) {
     return;
   }
 
@@ -86,6 +89,11 @@ Game.prototype.socketsHandler = function(socket) {
   var user = this.users[id] = {};
     user.socket = socket;
     user.player = this._createPlayer(id);
+    user.ready  = false;
+
+  if(!this._host) {
+    this._host = user;
+  }
 
   var game = this;
 
@@ -113,7 +121,7 @@ Game.prototype.start = function() {
 
   world.create();
 
-  //connection.emit('start');
+  //this._host.socket.emit('start');
 };
 
 /**

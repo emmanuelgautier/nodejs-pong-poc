@@ -22,9 +22,12 @@ function World(config, p2) {
  */
 World.prototype.create = function() {
 
+  var p2 = this._p2,
+      config = this._config;
+
   var createPaddle = function(position) {
-    var shape = new this._p2.Rectangle(this._config.objects.paddle.width, this._config.objects.paddle.height),
-        paddle = new this._p2.Body({
+    var shape = new p2.Rectangle(config.objects.paddle.width, config.objects.paddle.height),
+        paddle = new p2.Body({
           position: [position.x, position.y]
         });
 
@@ -34,8 +37,8 @@ World.prototype.create = function() {
   };
 
   var createWall = function(position) {
-    var shape = new this._p2.Plane(this._config.objects.walls.width, this._config.objects.wall.height),
-        wall = new this._p2.Body({
+    var shape = new p2.Plane(config.objects.wall.width, config.objects.wall.height),
+        wall = new p2.Body({
           position: [position.x, position.y]
         });
 
@@ -45,8 +48,8 @@ World.prototype.create = function() {
   };
 
   var createGoal = function(position) {
-    var shape = new this._p2.Line(this._config.objects.goal.width, this._config.objects.goal.height),
-        goal = new this._p2.Body({
+    var shape = new p2.Line(config.objects.goal.width, config.objects.goal.height),
+        goal = new p2.Body({
           position: [position.x, position.y]
         });
 
@@ -56,8 +59,8 @@ World.prototype.create = function() {
   };
 
   var createBall = function(position) {
-    var shape = new this._p2.Circle(this._config.objects.ball.width, this._config.objects.ball.height),
-        ball = new this._p2.Body({
+    var shape = new p2.Circle(config.objects.ball.width, config.objects.ball.height),
+        ball = new p2.Body({
           position: [position.x, position.y]
         });
 
@@ -66,21 +69,21 @@ World.prototype.create = function() {
     return ball;
   };
 
-  var world = this._p2.world();
+  var world = p2.World();
 
   var paddles = [];
-    paddles[0] = createPaddle(this._config.objects.paddle.position[0]);
-    paddles[1] = createPaddle(this._config.objects.paddle.position[1]);
+    paddles[0] = createPaddle(config.objects.paddle.position[0]);
+    paddles[1] = createPaddle(config.objects.paddle.position[1]);
 
   var walls = [];
-    walls[0] = createWall(this._config.objects.walls.position[0]);
-    walls[1] = createWall(this._config.objects.walls.position[1]);
+    walls[0] = createWall(config.objects.wall.position[0]);
+    walls[1] = createWall(config.objects.wall.position[1]);
 
   var goals = [];
-    goals[0] = createGoal(this._config.objects.goal.position[0]);
-    goals[1] = createGoal(this._config.objects.goal.position[1]);
+    goals[0] = createGoal(config.objects.goal.position[0]);
+    goals[1] = createGoal(config.objects.goal.position[1]);
 
-  var ball = createBall(this._config.objects.ball.position);
+  var ball = createBall(config.objects.ball.position);
 
   world.addBody(paddles[0]);
   world.addBody(paddles[1]);
