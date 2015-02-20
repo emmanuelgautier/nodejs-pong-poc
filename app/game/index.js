@@ -32,6 +32,13 @@ function Game(config, room) {
     this._host = null;
 
     this._eventsListenersHandler();
+
+    var players = [uuid.v1(), uuid.v1()];
+
+    var score = new Score(players),
+        world = new World(this._config, p2);
+
+    world.create();
 }
 
 /**

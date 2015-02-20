@@ -69,7 +69,7 @@ World.prototype.create = function() {
     return ball;
   };
 
-  var world = p2.World();
+  var world = new p2.World();
 
   var paddles = [];
     paddles[0] = createPaddle(config.objects.paddle.position[0]);
