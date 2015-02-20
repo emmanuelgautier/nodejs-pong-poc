@@ -22,7 +22,7 @@ function World(config, p2) {
   this._config = config;
   this._p2 = p2;
 
-  this._objects = {};
+  this.Objects = {};
 }
 
 /**
@@ -126,10 +126,16 @@ World.prototype.create = function() {
 
   this._world = world;
 
-  this._objects.paddles = paddles;
-  this._objects.walls = walls;
-  this._objects.goals = goals;
-  this._objects.ball = ball;
+  this.Objects.paddles = paddles;
+  this.Objects.walls = walls;
+  this.Objects.goals = goals;
+  this.Objects.ball = ball;
 };
+
+/**
+ *
+ * @api public
+ */
+World.prototype.Objects = null;
 
 module.exports = World;
