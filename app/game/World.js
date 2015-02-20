@@ -1,6 +1,15 @@
 'use strict';
 
 /**
+ * Constants
+ *
+ */
+var COLLISION_BALL    = Math.pow(2, 0),
+    COLLISION_PADDLE  = Math.pow(2, 1),
+    COLLISION_WALL    = Math.pow(2, 2),
+    COLLISION_GOAL    = Math.pow(2, 3);
+
+/**
  *
  *
  * @constructor
@@ -31,6 +40,9 @@ World.prototype.create = function() {
           position: [position.x, position.y]
         });
 
+    shape.collisionGroup = COLLISION_PADDLE;
+    shape.collisionMask = COLLISION_BALL;
+
     paddle.addShape(shape);
 
     return paddle;
@@ -41,6 +53,9 @@ World.prototype.create = function() {
         wall = new p2.Body({
           position: [position.x, position.y]
         });
+
+    shape.collisionGroup = COLLISION_WALL;
+    shape.collisionMask = COLLISION_BALL;
 
     wall.addShape(shape);
 
@@ -53,6 +68,9 @@ World.prototype.create = function() {
           position: [position.x, position.y]
         });
 
+    shape.collisionGroup = COLLISION_GOAL;
+    shape.collisionMask = COLLISION_BALL;
+
     goal.addShape(shape);
 
     return goal;
@@ -64,12 +82,17 @@ World.prototype.create = function() {
           position: [position.x, position.y]
         });
 
+    shape.collisionGroup = COLLISION_BALL;
+    shape.collisionMask = COLLISION_PADDLE | COLLISION_WALL | COLLISION_GOAL;
+
     ball.addShape(shape);
 
     return ball;
   };
 
-  var world = new p2.World();
+  var world = new p2.World({
+    gravity: [0, 0]
+  });
 
   var paddles = [];
     paddles[0] = createPaddle(config.objects.paddle.position[0]);
