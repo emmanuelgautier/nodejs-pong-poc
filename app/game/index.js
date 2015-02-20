@@ -32,13 +32,6 @@ function Game(config, room) {
     this._host = null;
 
     this._eventsListenersHandler();
-
-    var players = [uuid.v1(), uuid.v1()];
-
-    var score = new Score(players),
-        world = new World(this._config, p2);
-
-    world.create();
 }
 
 /**
@@ -50,7 +43,7 @@ function Game(config, room) {
  */
 Game.prototype._createPlayer = function(uuid) {
 
-    var player = new Player(uuid, new Controls());
+    var player = new Player(uuid, new Controls(null, this._config.velocity.paddle));
 
     return player;
   };
@@ -121,12 +114,16 @@ Game.prototype.socketsHandler = function(socket) {
  */
 Game.prototype.start = function() {
 
-  var players = [this.users[this.uuids[0]].player, this.users[this.uuids[1]].player];
-
-  var score = new Score(players),
+  var score = new Score(this.uuids),
       world = new World(this._config, p2);
 
   world.create();
+
+  //set paddles created to players controls
+  var paddles = world.Objects.paddles;
+
+  this.users[this.uuids[0]].player.Controls.Paddle = paddles[0];
+  this.users[this.uuids[1]].player.Controls.Paddle = paddles[1];
 
   //this._host.socket.emit('start');
 };

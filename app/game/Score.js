@@ -11,8 +11,8 @@ function Score(players) {
 
   var score = {};
 
-  for(var player in players) {
-    score[player] = 0;
+  for(var i = 0; i < 2; i += 1) {
+    score[players[i]] = 0;
   }
 
   this._score = score;
