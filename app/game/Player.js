@@ -12,6 +12,7 @@ var Controls = require('./Controls');
  * @api public
  */
 function Player(id, Controls) {
+
   this._id = id;
   this.Controls = Controls;
 }
@@ -21,6 +22,7 @@ function Player(id, Controls) {
  * @api public
  */
 Player.prototype.win = function() {
+
   this.Score.increment(this._id);
 };
 

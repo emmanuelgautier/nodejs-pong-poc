@@ -7,6 +7,7 @@
  * @api public
  */
 function Controls(Paddle, velocity) {
+
   this._paddle = Paddle;
   this._velocity = velocity;
 };
@@ -18,6 +19,7 @@ function Controls(Paddle, velocity) {
  * @api public
  */
 Controls.prototype.move = function(x) {
+
   this._paddle.position[0] = x;
 };
 
@@ -27,6 +29,7 @@ Controls.prototype.move = function(x) {
  * @api public
  */
 Controls.prototype.up = function() {
+
   this._paddle.velocity[1] = this._velocity;
 };
 
@@ -36,6 +39,7 @@ Controls.prototype.up = function() {
  * @api public
  */
 Controls.prototype.down = function() {
+
   this._paddle.velocity[1] = -this._velocity;
 };
 

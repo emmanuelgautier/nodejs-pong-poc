@@ -18,6 +18,7 @@ var COLLISION_BALL    = Math.pow(2, 0),
  * @api public
  */
 function World(config, p2) {
+
   this._config = config;
   this._p2 = p2;
 
@@ -35,6 +36,7 @@ World.prototype.create = function() {
       config = this._config;
 
   var createPaddle = function(position) {
+
     var shape = new p2.Rectangle(config.objects.paddle.width, config.objects.paddle.height),
         paddle = new p2.Body({
           position: [position.x, position.y]
@@ -49,6 +51,7 @@ World.prototype.create = function() {
   };
 
   var createWall = function(position) {
+
     var shape = new p2.Plane(config.objects.wall.width, config.objects.wall.height),
         wall = new p2.Body({
           position: [position.x, position.y]
@@ -63,6 +66,7 @@ World.prototype.create = function() {
   };
 
   var createGoal = function(position) {
+
     var shape = new p2.Line(config.objects.goal.width, config.objects.goal.height),
         goal = new p2.Body({
           position: [position.x, position.y]
@@ -77,6 +81,7 @@ World.prototype.create = function() {
   };
 
   var createBall = function(position) {
+
     var shape = new p2.Circle(config.objects.ball.width, config.objects.ball.height),
         ball = new p2.Body({
           position: [position.x, position.y]

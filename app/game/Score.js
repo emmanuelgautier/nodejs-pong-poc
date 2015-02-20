@@ -8,6 +8,7 @@
  * @api public
  */
 function Score(players) {
+
   var score = {};
 
   for(var player in players) {
@@ -25,6 +26,7 @@ function Score(players) {
  * @api public
  */
 Score.prototype.increment = function(player) {
+
   this._score[player] += 1;
 
   return this._score[player];
@@ -36,6 +38,7 @@ Score.prototype.increment = function(player) {
  * @api public
  */
 Score.prototype.reset = function() {
+
   var players = this._score.keys();
 
   this._score[players[0]] = 0;
@@ -51,6 +54,7 @@ Score.prototype.reset = function() {
  * @api public
  */
 Score.prototype.get = function(player) {
+
   if(player === null || !this._score[player]) {
     return this._score;
   }
