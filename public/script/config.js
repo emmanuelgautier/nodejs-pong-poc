@@ -1,12 +1,10 @@
-'use strict';
-
 var MAP_WIDTH  = 800,
     MAP_HEIGHT = 600,
 
     PADDLE_WIDTH  = 20,
     PADDLE_HEIGHT = 150;
 
-module.exports = {
+var config = {
   map: {
     width: MAP_WIDTH,
     height: MAP_HEIGHT

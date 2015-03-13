@@ -1,25 +1,24 @@
 var socket = io('/');
 
-setTimeout(function() {
+socket.emit('preload config');
+socket.on('config', function(config){
+    console.log(config);
     socket.emit('ready');
-}, 2000);
+});
+socket.on('start', function(){
+    console.log("it started!");
+});
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(config.map.width, config.map.height, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 var cursors1;
 var cursors2Up, cursors2Down;
 var paddles, paddle1, paddle2;
 var ball;
-var speed = 300, speedLimit = 1500;
 var walls, wall, goals, goal;
-var vector = {
-    x: 0,
-    y: 0
-};
-var length;
 var score1 = 0, score2 = 0;
 var scoreDisplay;
- 
+
 function preload() {
 	//Load the sprites
 	game.load.image('paddle', 'assets/sprite/paddle.png');
@@ -35,25 +34,25 @@ function create() {
 	//Create the limits
 	walls = game.add.group();
 	walls.enableBody = true;
-	wall = walls.create(50, -1, "wall");
-	wall = walls.create(0, 600, "wall");
+	wall = walls.create(config.objects.wall.position[0].x, config.objects.wall.position[0].y, "wall");
+	wall = walls.create(config.objects.wall.position[1].x, config.objects.wall.position[1].y, "wall");
 	goals = game.add.group();
 	goals.enableBody = true;
-	goal = goals.create(-1, 0, "goal");
-	goal = goals.create(800, 0, "goal");
+	goal = goals.create(config.objects.goal.position[0].x, config.objects.goal.position[0].y, "goal");
+	goal = goals.create(config.objects.goal.position[1].x, config.objects.goal.position[1].y, "goal");
 
 	//Create paddles group
 	paddles = game.add.group();
-	paddle2 = paddles.create(20, 250, "paddle");
-	paddle1 = paddles.create(760, 250, "paddle");
+	paddle2 = paddles.create(config.objects.paddle.position[0].x, config.objects.paddle.position[0].y, "paddle");
+	paddle1 = paddles.create(config.objects.paddle.position[1].x, config.objects.paddle.position[1].y, "paddle");
 
 	//Create the ball
-	ball = game.add.sprite(392.5, 292.5, "ball");
+	ball = game.add.sprite(config.objects.ball.position.x, config.objects.ball.position.x, "ball");
 	game.physics.arcade.enable(ball);
 
 	//Add initial momentum to the ball
-	ball.body.velocity.x = speed;
-	ball.body.velocity.y = speed * (Math.random() * 1.5 - 0.75);
+	ball.body.velocity.x = config.velocity.ball.min;
+	ball.body.velocity.y = config.velocity.ball.min * (Math.random() * 1.5 - 0.75);
 
 	//Enable physic on both paddle
 	game.physics.arcade.enable(paddle1);
@@ -70,6 +69,8 @@ function create() {
 	cursors1 = game.input.keyboard.createCursorKeys();
     cursors2Up = game.input.keyboard.addKey(90);
     cursors2Down = game.input.keyboard.addKey(83);
+    pauseButton = game.input.keyboard.addKey(32);
+        pauseButton.onDown.add(togglePause, this);
 }
  
 function update() {
@@ -80,11 +81,11 @@ function update() {
     
     //Reset if ball fall out of bounds
     if(ball.inWorld === false){
-        ball.body.x = 392.5;
-	    ball.body.y = 292.5;
+        ball.body.x = config.objects.goal.position.x;
+	    ball.body.y = config.objects.goal.position.y;
         speed = 300;
-        ball.body.velocity.x = speed;
-	    ball.body.velocity.y = speed * (Math.random() * 1.5 - 0.75);
+        ball.body.velocity.x = config.velocity.ball.min;
+	    ball.body.velocity.y = config.velocity.ball.min * (Math.random() * 1.5 - 0.75);
     }
     
     //Display score
@@ -93,22 +94,22 @@ function update() {
     //Move the paddles
 	if (cursors1.up.isDown)
     {
-        paddle1.body.velocity.y = -300;
+        paddle1.body.velocity.y = -config.velocity.paddle;
     }
     else if (cursors1.down.isDown)
     {
-        paddle1.body.velocity.y = 300;
+        paddle1.body.velocity.y = config.velocity.paddle;
     }
     else{
     	paddle1.body.velocity.y = 0;
     }
     if (cursors2Up.isDown)
     {
-        paddle2.body.velocity.y = -300;
+        paddle2.body.velocity.y = -config.velocity.paddle;
     }
     else if (cursors2Down.isDown)
     {
-        paddle2.body.velocity.y = 300;
+        paddle2.body.velocity.y = config.velocity.paddle;
     }
     else{
         paddle2.body.velocity.y = 0;
@@ -122,14 +123,19 @@ function bounceBackY(ball, wall){
 
 //Bounce to a paddle
 function bounceBackX(ball, paddle){
+    var vector = {
+        x: 0,
+        y: 0
+    };
+
     //Augment ball speed
     speed *= 1.1;
-    if(speed > speedLimit){
-		speed = speedLimit;
+    if(speed > config.velocity.ball.max){
+		speed = config.velocity.ball.max;
     }
     vector.x = ball.body.center.x - paddle.body.center.x;
     vector.y = (ball.body.center.y - paddle.body.center.y)/2;
-    length = Math.sqrt(vector.x*vector.x + vector.y*vector.y);
+    var length = Math.sqrt(vector.x*vector.x + vector.y*vector.y);
     vector.x *= speed / length; 
     vector.y *= speed / length; 
 	ball.body.velocity.x = vector.x;
@@ -154,4 +160,9 @@ function score(ball, goal){
     speed = 300;
 	ball.body.velocity.x = speed;
 	ball.body.velocity.y = speed * (Math.random() * 1.5 - 0.75);
+}
+
+//Toggle the paused state of the game
+function togglePause() {
+    game.paused ? game.paused = false : game.paused = true;
 }
