@@ -100,7 +100,7 @@ Game.prototype.socketsHandler = function(socket) {
   socket.join(this._room);
 
   socket.on('preload config', function() {
-    socket.emit('config', this._config);
+    socket.emit('config', game._config);
   });
 
   socket.on('ready', function() {
