@@ -30,21 +30,23 @@ Controls.prototype.move = function(x) {
 /**
  * Move paddle up
  *
+ * @param {Numbeer} n
  * @api public
  */
-Controls.prototype.up = function() {
+Controls.prototype.up = function(n) {
 
-  this.Paddle.velocity[1] = this._velocity;
+  this.Paddle.velocity[1] = this._velocity * n;
 };
 
 /**
  * Move paddle down
  *
+ * @param {Number} n
  * @api public
  */
-Controls.prototype.down = function() {
+Controls.prototype.down = function(n) {
 
-  this.Paddle.velocity[1] = -this._velocity;
+  this.Paddle.velocity[1] = -this._velocity * n;
 };
 
 /**

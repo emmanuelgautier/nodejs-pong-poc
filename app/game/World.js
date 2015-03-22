@@ -17,16 +17,17 @@ var COLLISION_BALL    = Math.pow(2, 0),
  * @param {Object} p2
  * @api public
  */
-function World(config, p2) {
+function World(config, physicsElapsed, p2) {
 
   this._config = config;
+  this._physicsElapsed = physicsElapsed;
   this._p2 = p2;
 
   this.Objects = {};
 }
 
 /**
- * Construct game world.
+ * Create game world.
  *
  * @api public
  */
@@ -99,6 +100,8 @@ World.prototype.create = function() {
     gravity: [0, 0]
   });
 
+  world.step(this._physicsElapsed);
+
   var paddles = [];
     paddles[0] = createPaddle(config.objects.paddle.position[0]);
     paddles[1] = createPaddle(config.objects.paddle.position[1]);
@@ -130,6 +133,46 @@ World.prototype.create = function() {
   this.Objects.walls = walls;
   this.Objects.goals = goals;
   this.Objects.ball = ball;
+};
+
+/**
+ * Update paddles positions
+ *
+ * @param {Object} inputs
+ * @return {Array} cursors
+ * @api public
+ */
+World.prototype.updatePaddles = function(inputs) {
+
+  var cursor = this._config.cursor,
+      cursors = [];
+
+  var input = null;
+
+  for(var user in users) {
+    cursors[user] = [0, 0];
+
+    while(inputs[user].length != 0) {
+      input = inputs[user].shift();
+
+      if(input === cursor.up) {
+        cursors[0] += 1;
+
+        continue;
+      }
+
+      if(input === cursor.down) {
+        cursors[1] += 1;
+
+        continue;
+      }
+    }
+
+    Player.Controls.up(cursors[0]);
+    Player.Controls.down(cursors[1]);
+  }
+
+  return cursors;
 };
 
 /**

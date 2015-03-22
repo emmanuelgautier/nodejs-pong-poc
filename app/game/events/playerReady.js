@@ -2,11 +2,10 @@
 
 /**
  *
- *
+ * @param {Number} id
+ * @api public
  */
 module.exports = function(id) {
-
-  console.log('ready');
 
   this.users[id].ready = true;
 
@@ -15,7 +14,7 @@ module.exports = function(id) {
     var openent = this.users[(id === this.uuids[0]) ? this.uuids[1] : this.uuids[0]];
 
     if(openent.ready) {
-      this.start(); 
+      this.start();
     }
   }
 };

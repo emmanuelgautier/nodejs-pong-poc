@@ -65,5 +65,10 @@ module.exports = {
       min: 300,
       max: 1500
     }
+  },
+
+  cursor: {
+    up: 0,
+    down: 1
   }
 };

@@ -24,7 +24,7 @@ var app = http.createServer(connect),
 
     Game = require('./app/game');
 
-var game = new Game(config, 'room');
+var game = new Game(config, io, 'room');
 
 io.on('connection', function(socket) {
 
