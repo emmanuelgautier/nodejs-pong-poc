@@ -4,8 +4,6 @@
     var socket = io('/');
     var _config = {};
 
-    window.socket = socket;
-
     var game = null;
 
     var cursors1;
@@ -29,6 +27,10 @@
         console.log("it started!");
 
         togglePause();
+    });
+
+    socket.on('positions', function(positions) {
+        console.log(positions);
     });
 
     function init() {

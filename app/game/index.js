@@ -146,7 +146,7 @@ Game.prototype.inputHandler = function(player, input) {
  */
 Game.prototype.broadcast = function(name, message) {
 
-  this._connection.to(this._room).emit(name, message);
+  this._connection.emit(name, message);
 };
 
 /**
@@ -167,13 +167,15 @@ Game.prototype.updatePaddles = function() {
  */
 Game.prototype.update = function() {
 
-  var objects = this.world.objects;
+  this.world.update(this.physicsElapsed);
+
+  var objects = this.world.Objects;
 
   var positions = {};
+    positions['ball'] = objects['ball'].position;
+    positions['paddles'] = [objects['paddles'][0].position, objects['paddles'][1].position];
 
-  for(object in objects) {
-    positions[object] = objects.position;
-  }
+  console.log(positions);
 
   this.broadcast('positions', positions);
 
@@ -188,7 +190,7 @@ Game.prototype.update = function() {
 Game.prototype.start = function() {
 
   this.score = new Score(this.uuids),
-  this.world = new World(this._config, this.physicsElapsed, p2);
+  this.world = new World(this._config, p2);
 
   this.world.create();
 
@@ -217,7 +219,7 @@ Game.prototype.run = function() {
     this.updatePaddles();
 
     this.time = new Date().getTime();
-    while(this.lastTime <= this.time) {
+    if(this.lastTime <= this.time) {
       this.update();
 
       this.lastTime += this.physicsElapsed;

@@ -17,11 +17,12 @@ var COLLISION_BALL    = Math.pow(2, 0),
  * @param {Object} p2
  * @api public
  */
-function World(config, physicsElapsed, p2) {
+function World(config, p2) {
 
   this._config = config;
-  this._physicsElapsed = physicsElapsed;
   this._p2 = p2;
+
+  this._world = null;
 
   this.Objects = {};
 }
@@ -83,8 +84,9 @@ World.prototype.create = function() {
 
   var createBall = function(position) {
 
-    var shape = new p2.Circle(config.objects.ball.width, config.objects.ball.height),
+    var shape = new p2.Circle(config.objects.ball.radius),
         ball = new p2.Body({
+          velocity: [config.velocity.ball.min, config.velocity.ball.min * (Math.random() * 1.5 - 0.75)],
           position: [position.x, position.y]
         });
 
@@ -99,8 +101,6 @@ World.prototype.create = function() {
   var world = new p2.World({
     gravity: [0, 0]
   });
-
-  world.step(this._physicsElapsed);
 
   var paddles = [];
     paddles[0] = createPaddle(config.objects.paddle.position[0]);
@@ -176,6 +176,20 @@ World.prototype.updatePaddles = function(inputs, users) {
   }
 
   return cursors;
+};
+
+/**
+ * Update bodies positions
+ *
+ * @param {Number} physicsElapsed
+ * @api public 
+ */
+World.prototype.update = function(physicsElapsed) {
+
+  this.Objects.ball.velocity = [this._config.velocity.ball.min, this._config.velocity.ball.min * (Math.random() * 1.5 - 0.75)];
+
+  //moves the bodies forward in time. 
+  this._world.step(physicsElapsed / 1000);
 };
 
 /**
