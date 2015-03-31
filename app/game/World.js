@@ -139,17 +139,20 @@ World.prototype.create = function() {
  * Update paddles positions
  *
  * @param {Object} inputs
+ * @param {Object} users
  * @return {Array} cursors
  * @api public
  */
-World.prototype.updatePaddles = function(inputs) {
+World.prototype.updatePaddles = function(inputs, users) {
 
   var cursor = this._config.cursor,
       cursors = [];
 
-  var input = null;
+  var input = null, Player = null;
 
   for(var user in users) {
+    Player = users[user].player;
+
     cursors[user] = [0, 0];
 
     while(inputs[user].length != 0) {

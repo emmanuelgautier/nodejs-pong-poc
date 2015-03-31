@@ -33,7 +33,8 @@ function Game(config, connection, room) {
     this._connection = connection;
 
     this.uuids = [];
-    this.users = {}
+    this.users = {};
+    this.inputs = {};
 
     this._config = config;
     this._room = room;
@@ -211,6 +212,7 @@ Game.prototype.start = function() {
  * @api protected
  */
 Game.prototype.run = function() {
+
   if(this.running) {
     this.updatePaddles();
 
@@ -231,6 +233,7 @@ Game.prototype.run = function() {
  * @api public
  */
 Game.prototype.stop = function() {
+
   this.running = false;
 
   this.broadcast('stop');

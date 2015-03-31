@@ -4,6 +4,8 @@
     var socket = io('/');
     var _config = {};
 
+    window.socket = socket;
+
     var game = null;
 
     var cursors1;
