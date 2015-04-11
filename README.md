@@ -1,4 +1,4 @@
-# nodejs-pong-poc
+# Muliplayer Pong Game
 
 ## Installation
 
