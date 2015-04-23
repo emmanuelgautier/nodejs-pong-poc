@@ -113,6 +113,8 @@ Game.prototype.socketsHandler = function(socket) {
 
   socket.join(this._room);
 
+  var that = this;
+
   socket.on('preload config', function() {
     socket.emit('config', game._config);
   });
@@ -122,7 +124,7 @@ Game.prototype.socketsHandler = function(socket) {
   });
 
   socket.on('input', function(input) {
-    this.inputHandler(id, input);
+    that.inputHandler(id, input);
   });
 };
 
@@ -174,8 +176,6 @@ Game.prototype.update = function() {
   var positions = {};
     positions['ball'] = objects['ball'].position;
     positions['paddles'] = [objects['paddles'][0].position, objects['paddles'][1].position];
-
-  console.log(positions);
 
   this.broadcast('positions', positions);
 
