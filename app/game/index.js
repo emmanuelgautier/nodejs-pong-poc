@@ -72,7 +72,7 @@ Game.prototype._eventsListenersHandler = function() {
   fs.readdirSync(__dirname + '/events').forEach(function(filename) {
     if (/\.js$/.test(filename)) {
       var name = path.basename(filename, '.js'),
-          eventListener = function () { return require('./events/' + name); }();
+          eventListener = function () { return require('./events/' + name); };
 
       that.eventEmitter.on(name, function() { eventListener.apply(that, arguments); });
     }
@@ -113,8 +113,6 @@ Game.prototype.socketsHandler = function(socket) {
 
   socket.join(this._room);
 
-  var that = this;
-
   socket.on('preload config', function() {
     socket.emit('config', game._config);
   });
@@ -124,7 +122,12 @@ Game.prototype.socketsHandler = function(socket) {
   });
 
   socket.on('input', function(input) {
-    that.inputHandler(id, input);
+    game.inputHandler(id, input);
+  });
+
+  socket.on('disconnect', function() {
+    delete game.users[id];
+    delete game.inputs[id];
   });
 };
 
